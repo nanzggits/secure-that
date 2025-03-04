@@ -21,23 +21,16 @@ Each section below contains a **practical exercise** to apply these security bes
 #### **📝 Steps:**
 1. **Fork this repository** to your GitHub account.
 2. **Enable Code Scanning** in your repository:
-   - Go to **Settings > Security > Code Scanning**.
+   - Go to **Settings > Security > Code Security > Code Scanning**.
    - Click **Enable Default Setup** for **CodeQL Analysis**.
-3. **Trigger CodeQL manually**:
-   - Navigate to **Security > Code Scanning Alerts**.
-   - Click **"Run Analysis"** if it hasn't been triggered automatically.
-4. **Review vulnerabilities flagged by CodeQL**:
-   - Open **Security > Code Scanning Alerts**.
-   - Look for issues in `vulnerable.js`, such as:
-     - **Insecure deserialization (Remote Code Execution - RCE)**
-     - **Local File Inclusion (LFI)**
-     - **Server-Side Request Forgery (SSRF)**
-5. **Fix a detected vulnerability using Copilot Autofix**:
-   - Open `vulnerable.js` and hover over a flagged issue.
-   - Click **"Fix with Copilot"**.
-   - Review and apply the suggested fix.
-   - Commit and push your changes.
-
+   - Click **Enable CodeQL**.
+   - In the **Actions** tab, CodeQL Setup is in progress.
+3. **Review vulnerabilities flagged by CodeQL**:
+   - Open **Settings > Security > Code Security > Code Scanning**.
+   - In the ellipsis menu of **CodeQL analysis**, select **View Code Scanning alerts**.
+   5. **Fix a detected vulnerability using Copilot Autofix**:
+   - Open each issue and click on **Generate fix**.
+  
 ---
 
 ### **2️⃣ Detecting and Managing Secrets (Secret Scanning & Push Protection)**
@@ -47,13 +40,14 @@ Each section below contains a **practical exercise** to apply these security bes
 
 1. **Verify that Secret Scanning and Push Protection are enabled:**
    - Navigate to your repository on GitHub.
-   - Click on **Settings** > **Code security and analysis**.
+   - Click on **Settings** > **Code security**.
    - Ensure that both **"Secret scanning"** and **"Push protection"** are enabled.
    - If they're not enabled, toggle them on.
 
 2. **View existing Secret Scanning alerts:**
-   - Go to **Security** > **Secret Scanning Alerts**.
+   - Go to repo's **Security** tab > **Secret Scanning**.
    - Check if any secrets have already been detected.
+📝 N.B.: The **Security** tab is not in the main navigation bar of a repository. To access it, click the ellipsis menu (…) in the top-right corner and select "Security" from the dropdown. 🚀
 
 3. **Simulate a Secret Detection:**
    - Open `config.js` in your local repository.
@@ -64,22 +58,10 @@ Each section below contains a **practical exercise** to apply these security bes
    - Commit and push the change.
    - If **Push Protection is enabled**, GitHub will block the push and notify you.
 
-4. **Bypass Push Protection (For Learning Purposes):**
-   - Attempt to **bypass** the push protection by providing a reason (e.g., "It's used in tests").
-   - Observe that GitHub allows the push but **generates a Secret Scanning alert**.
-
-5. **Respond to a Secret Scanning Alert:**
+4. **Respond to a Secret Scanning Alert:**
    - Navigate to **Security > Secret Scanning Alerts**.
    - Locate the alert for the committed secret.
    - Follow GitHub’s recommended steps to **revoke** the exposed secret and **remove** it from the codebase.
-
-6. **Properly Remove the Secret from Git History:**
-   - Use tools like `git filter-repo` or **BFG Repo-Cleaner** to remove the secret from history.
-   - After cleaning, **force-push** the changes:
-     ```bash
-     git push origin main --force
-     ```
-   - ⚠️ Be cautious with force-pushing, as it **overwrites history**.
 
 By completing this exercise, you'll learn how to **manage secrets securely** and prevent accidental exposure.
 
@@ -90,12 +72,8 @@ By completing this exercise, you'll learn how to **manage secrets securely** and
 
 #### **📝 Steps:**
 1. **Ensure Dependabot is enabled**:
-   - Go to **Settings > Code Security & Analysis**.
-   - Enable **Dependabot alerts** and **Dependabot security updates**.
-2. **Check for outdated dependencies**:
-   - Open `package.json`, and look for:
-     - `express: 4.15.0` (contains vulnerabilities)
-     - `lodash: 4.17.20` (contains vulnerabilities)
+   - Go to the **Security** tab .
+   - Enable **Dependabot alerts**.
 3. **Check for Dependabot alerts**:
    - Go to **Security > Dependabot Alerts**.
    - Look for dependency warnings.
@@ -130,21 +108,41 @@ By completing this exercise, you'll learn how to **manage secrets securely** and
 ---
 
 ### **5️⃣ Handling a Security Report (`SECURITY.md` & Private Vulnerability Reporting)**
-📌 **Objective:** Learn how to **report and manage security vulnerabilities responsibly**.
+📌 **Objective:** Learn how to **set up a security policy, report, and manage vulnerabilities responsibly**.
 
 #### **📝 Steps:**
-1. **Navigate to `SECURITY.md`** and review the **disclosure policy**.
-2. **Enable Private Vulnerability Reporting (PVR)**:
-   - Go to **Settings > Security > Private Vulnerability Reporting**.
-   - Click **Enable**.
-3. **Simulate a security report**:
-   - Go to **Security > Private Vulnerability Reporting**.
-   - Click **Report a Vulnerability** and describe a potential issue.
-   - Submit the report.
-4. **Apply a security fix** and **publish a security advisory**:
-   - Fix a vulnerability.
-   - Go to **Security > Security Advisories**.
-   - Click **New Draft Advisory**, fill in details, and publish.
+1. **Create a Security Policy (`SECURITY.md`)**:
+   -Navigate to **Settings > Security > Security Policy**.
+   -Click **"Set up a security policy"** (this creates a new `SECURITY.md` file).
+   -Define your security policy, including:
+      -  How to **report security issues**.
+      - Expected **response times**.
+       - Preferred **contact method** (e.g., Private Vulnerability Reporting, email).
+
+2. **Enable Private Vulnerability Reporting (PVR)**
+   -Go to **Settings > Security > Private Vulnerability Reporting**.
+   -Click **"Enable"** to allow responsible disclosure of vulnerabilities.
+
+3. **Simulate a Security Report**
+   -Navigate to **Security > Private Vulnerability Reporting**.
+   -Click **"Report a Vulnerability"**.
+   -Fill in the form with a **sample vulnerability report** (for testing purposes).
+   -Submit the report.
+
+4. **Apply a Security Fix & Publish a Security Advisory**
+   -**Fix the vulnerability in your repository**.
+   -Navigate to **Security > Security Advisories**.
+   -Click **"New Draft Advisory"**.
+   -Fill in the details, including:
+    - Affected versions.
+    - Severity of the issue.
+    - Steps to mitigate the vulnerability.
+   -Click **"Publish"** to make the advisory public once the fix is deployed.
+
+✅ **Now, your repository has a security policy and a structured process for handling vulnerabilities!** 🚀  
+
+For more details, check out the [GitHub Security Docs](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/about-repository-security-advisories).
+
 ---
 ## **💡 Final Notes**
 - Follow each exercise step by step.
