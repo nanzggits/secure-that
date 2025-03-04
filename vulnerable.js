@@ -27,11 +27,16 @@ app.post('/execute', (req, res) => {
  * - Attackers can make the server send requests to internal services.
  */
 app.get('/fetch', (req, res) => {
-    const url = req.query.url; 
-    fetch(url) // ⚠️ UNSAFE: Accepts user input without validation
-        .then(response => response.text())
-        .then(data => res.send(data))
-        .catch(err => res.status(500).send('Error fetching URL'));
+    const url = req.query.url;
+    const allowedUrls = ['https://example.com/data', 'https://api.example.com/info']; // Define an allow-list of acceptable URLs
+    if (allowedUrls.includes(url)) {
+        fetch(url) // SAFE: User input is validated against the allow-list
+            .then(response => response.text())
+            .then(data => res.send(data))
+            .catch(err => res.status(500).send('Error fetching URL'));
+    } else {
+        res.status(400).send('Invalid URL');
+    }
 });
 
 /**
